@@ -10,32 +10,17 @@ Date: 08-01-2024
 
 def canUnlockAll(boxes):
     """returns true if all boxes can be unlocked, false otherwise"""
-    # keeps track of current keys
-    keys = set()
-    # keep track of deleted keys
-    deleted = set()
-    kval = 0
-    # initialize key set with first box contents or a key without a box
-    keys.update(boxes[0]) if type(boxes[0]) is list else keys.add(boxes[0])
-    # get the number of locked boxes excluding first box that was opened
-    lboxes = len([i for i, item in enumerate(boxes)
-                  if type(item) is list and i != 0])
-    # break the while loop if all boxes were opeend or all the keys are used
-    while (lboxes > 0 and keys.difference(deleted)):
-        # use any arbitrary key to get the new keys that have not been used
-        kval = keys.difference(deleted).pop()
-        # update key index with new keys
-        (keys.update(boxes[kval])
-         if type(boxes[kval]) is list else keys.add(boxes[kval]))
-        # add used keys to deleted keys set
-        deleted.add(kval)
-        # cross off locked boxes that were opened
-        lboxes -= 1
-
-    if (lboxes):
+    if not boxes or type(boxes) is not list:
         return False
-    else:
+
+    unlocked = [0]
+    for n in unlocked:
+        for key in boxes[n]:
+            if key not in unlocked and key < len(boxes):
+                unlocked.append(key)
+    if len(unlocked) == len(boxes):
         return True
+    return False
 
 
 if __name__ == '__main__':

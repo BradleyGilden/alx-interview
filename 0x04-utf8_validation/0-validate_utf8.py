@@ -22,7 +22,7 @@ def validUTF8(data):
         elif ((b & 0xc0 == 0x80) and (not cp)):
             return False
         # if showing 1,2,3 or 4 byte code point but the previous was not met
-        elif (((b & 0xc0 == 0xc0) or (b & 0xc8 == 0x00)) and cp):
+        elif ((not (b & 0xc0 == 0x80)) and cp):
             return False
         # set code point indicator to 4 bytes 1111 0---
         elif (b & 0xf8 == 0xf0):

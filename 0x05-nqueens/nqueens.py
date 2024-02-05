@@ -4,6 +4,7 @@
 Author: Bradley Dillion Gilden
 Date: 05-02-2024
 """
+import sys
 
 
 def place(row, col, x):
@@ -32,5 +33,13 @@ def NQueens(N, row=0, x=[]):
 
 
 if __name__ == '__main__':
-    N = 4
-    NQueens(N)
+    if (len(sys.argv) < 2):
+        print("Usage: nqueens N")
+        exit(1)
+    elif (not sys.argv[1].isdecimal()):
+        print("N must be a number")
+        exit(1)
+    elif (int(sys.argv[1]) < 4):
+        print("N must be at least 4")
+        exit(1)
+    NQueens(int(sys.argv[1]))

@@ -12,11 +12,10 @@ def rotate_2d_matrix(matrix):
     """
     # first reverse the matrix
     matrix.reverse()
-    row_len = len(matrix)
-    col_len = len(matrix[0])
+    n = len(matrix)
     # then proceed to swap indices
-    for i in range(row_len):
-        for j in range(col_len):
+    for i in range(n):
+        for j in range(n):
             if j > i:
                 matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
 

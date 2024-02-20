@@ -19,7 +19,6 @@ def rotate_2d_matrix(matrix):
         for j in range(col_len):
             if j > i:
                 matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
-        i += 1
 
 
 if __name__ == "__main__":

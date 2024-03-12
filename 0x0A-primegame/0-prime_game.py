@@ -1,66 +1,69 @@
 #!/usr/bin/python3
-
 """
-Author: Bradley Dillion Gilden
-Date: 10-03-2024
+Prime Game
 """
 
 
-def isPrime(num):
-    """ determines if number is a prime number
+def findMultiples(num, targets):
     """
-    if num < 2:
+    Finds multiples of a given number within a list
+    """
+    for i in targets:
+        if i % num == 0:
+            targets.remove(i)
+    return targets
+
+
+def isPrime(i):
+    """
+    Check if a number is prime.
+    """
+    if i == 1:
         return False
-    for i in range(2, num):
-        if (num % i == 0):
+    for j in range(2, i):
+        if i % j == 0:
             return False
     return True
 
 
-def deleteMultiples(primeIndex, picks):
-    """ deletes all multiples ahead of prime
+def findPrimes(n):
     """
-    n = primeIndex + 1
-    while n < len(picks):
-        if picks[n] % picks[primeIndex] == 0:
-            del picks[n]
+    Dispatch a given set into prime numbers and non-prime numbers.
+    """
+    counter = 0
+    target = list(n)
+    for i in range(1, len(target) + 1):
+        if isPrime(i):
+            counter += 1
+            target.remove(i)
+            target = findMultiples(i, target)
         else:
-            n += 1
+            pass
+    return counter
 
 
 def isWinner(x, nums):
-    """ determines winner of prime game"""
-    # Maria starts first
-    mariaWins, benWins = 0, 0
+    """ finds the winner
+    """
+    players = {'Maria': 0, 'Ben': 0}
+    cluster = set()
+    for elem in range(x):
+        nums.sort()
+        num = nums[elem]
+        for i in range(1, num + 1):
+            cluster.add(i)
+            if i == num + 1:
+                break
+        temp = findPrimes(cluster)
 
-    for i in range(x):
-        picks = [j for j in range(1, nums[i] + 1)]
-        n = 0
-        benMadeMove, mariaMadeMove = False, False
-        mariaTurn = True
-        while n < len(picks):
-            if isPrime(picks[n]):
-                # delete the multiples of the prime
-                deleteMultiples(n, picks)
-                # then delete the prime
-                del picks[n]
-                # track which player made a move
-                benMadeMove = not mariaTurn
-                mariaMadeMove = mariaTurn
-                # after a prime is chosen, switch turns
-                mariaTurn = not mariaTurn
-            else:
-                n += 1
-            if n >= len(picks):
-                # if it's ben's turn, but ben has not made a move
-                if (not mariaTurn and not benMadeMove):
-                    mariaWins += 1
-                # if it's marias turn but maria has not made a move
-                elif (mariaTurn and not mariaMadeMove):
-                    benWins += 1
+        if temp % 2 == 0:
+            players['Ben'] += 1
+        elif temp % 2 != 0:
+            players['Maria'] += 1
 
-    return 'Maria' if mariaWins > benWins else 'Ben'
-
-
-if __name__ == '__main__':
-    print('Winner:', isWinner(5, [2, 5, 1, 4, 3]))
+    if players['Maria'] > players['Ben']:
+        return 'Maria'
+    elif players['Maria'] < players['Ben']:
+        return 'Ben'
+    else:
+        return None
